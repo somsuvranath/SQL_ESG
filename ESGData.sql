@@ -11,7 +11,7 @@ having AVG(MarketCap) > (Select AVG(MarketCap) from esgfinancialdata where Year 
     and AVG(ESG_Overall) > (Select AVG(ESG_Overall) from esgfinancialdata where Year = 2025);
 
 -- 2) Find the top 5 companies by Revenue in 2025 and their corresponding ESG scores.
-with cte as(select CompanyName, Revenue, ESG_Overall,
+with cte as(select CompanyName, Revenue, ESG_Overall, 
 rank() over (order by Revenue desc) as rnk
 from esgfinancialdata
 where Year = 2025)
@@ -47,7 +47,7 @@ from cte
 order by Industry, rnk_ESGscore;
 
 -- 6) What is the average ESG score by industry in 2024? (Industry baseline - useful for target setting)
-select Industry, avg(ESG_Overall) as av_esg
+select Industry, round(avg(ESG_Overall),2) as av_esg
 from esgfinancialdata
 where Year = 2024
 group by Industry;
@@ -73,7 +73,7 @@ from cte
 where bucket = 1;
 
 -- 9)Compare the ESG score between North America and Europe in 2025.
-select Region, avg(ESG_Overall) as av_ESG , max(ESG_Overall) as max_ESG, min(ESG_Overall) as min_ESG, Year
+select Region, round(avg(ESG_Overall),2) as av_ESG , max(ESG_Overall) as max_ESG, min(ESG_Overall) as min_ESG, Year
 from esgfinancialdata
 where Region in ('North America','Europe') and Year = 2025
 group by Region;
@@ -85,9 +85,9 @@ where Year = 2015),
 ESG_2025 as(select  CompanyID,CompanyName, ESG_Overall as ESG_2025
 from esgfinancialdata
 where Year = 2025)
-select e2015.CompanyID, e2015.CompanyName, round(e2025.ESG_2025 - e2015.ESG_2015, 2) as ESG_improvement
+select e2015.CompanyID, e2015.CompanyName, round(e2025.ESG_2025 - e2015.ESG_2015, 2) as ESG_improvement, ESG_2015, ESG_2025
 from ESG_2015 e2015 join ESG_2025 e2025 on e2015.CompanyID = e2025.CompanyID
-order by ESG_improvement desc;
+order by CompanyID;
 
 -- 11)List companies with ESG scores above 70 in 2025, along with their industry.
 select CompanyName, Industry, ESG_Overall, Year
@@ -99,4 +99,3 @@ select CompanyName, ProfitMargin, ESG_Overall, Year
 from esgfinancialdata
 where ProfitMargin < 0 and Year = 2024
 order by ESG_Overall desc;
-
