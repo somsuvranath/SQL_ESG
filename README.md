@@ -68,9 +68,17 @@ SQL | Data Modelling | ESG Metrics Analysis
 
 ## 📁 Repository Contents
 
-* SQL scripts for data cleaning and transformation
-* Analytical queries for ESG scoring
-* Final output tables for decision-making
+- `ESGData.sql`  
+  → SQL scripts used for data cleaning, transformation, and ESG analytics. Includes queries for integrating ESG and financial data, and generating scoring logic.
+
+- `esgfinancialdata.csv`  
+  → Source dataset containing ESG metrics and financial data for multiple companies. Used as the base for analysis and modelling.
+
+- `Integrated ESG Analytics.pdf`  
+  → Project presentation summarizing the analytical framework, methodology, and key insights derived from the ESG investment analysis.
+
+- `README.md`  
+  → Documentation explaining the project objective, methodology, and key findings.
 
 ---
 
